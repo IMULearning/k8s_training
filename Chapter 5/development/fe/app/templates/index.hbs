@@ -1,0 +1,14 @@
+
+<section>
+    <form>
+        {{input value=newTodoTitle id='todo-input'}}
+        <input type="submit" value="New Todo" {{action 'create'}}>
+    </form>
+    <ul class="todos">
+        {{#each model as |t|}}
+            {{todo-item model=t}}
+        {{else}}
+            <em>No todos right now.</em>
+        {{/each}}
+    </ul>
+</section>

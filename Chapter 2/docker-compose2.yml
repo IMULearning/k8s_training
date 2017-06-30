@@ -1,0 +1,28 @@
+pg:
+  image: postgres
+
+api:
+  restart: always
+  build: ./api
+  volumes:
+    - ./api:/app
+  command: "--reload"
+  links:
+    - pg
+  ports:
+    - "8000:8000"
+
+apiambassador:
+  image: cpuguy83/docker-grand-ambassador
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  command: -name=chapter2_api_1
+
+frontend:
+  image: nginx
+  volumes:
+    - ./frontend/nginx.conf:/etc/nginx/nginx.conf
+  links:
+    - apiambassador:api
+  ports:
+    - "80:80"

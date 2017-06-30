@@ -1,0 +1,41 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: fe
+  labels:
+    name: fe
+
+spec:
+  replicas: 1
+  selector:
+    name: fe
+  template:
+    metadata:
+      labels:
+        name: fe
+    spec:
+      containers:
+        - name: api
+          imagePullPolicy: Always
+          image: benstraub/fe:latest
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: fe
+  labels:
+    name: fe
+
+spec:
+  ports:
+    - port: 80
+      name: http
+      targetPort: 8000
+  selector:
+    name: fe
+  type: LoadBalancer

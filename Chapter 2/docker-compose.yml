@@ -1,0 +1,7 @@
+pg:
+  image: postgres
+
+frontend:
+  image: nginx
+  links:
+    - pg

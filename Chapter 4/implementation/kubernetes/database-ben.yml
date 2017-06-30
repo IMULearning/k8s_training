@@ -1,0 +1,38 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: database
+  labels:
+    name: database
+
+spec:
+  replicas: 1
+  selector:
+    name: database
+  template:
+    metadata:
+      labels:
+        name: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: database
+  labels:
+    name: database
+
+spec:
+  ports:
+    - port: 5432
+  selector:
+    name: database
+  type: LoadBalancer

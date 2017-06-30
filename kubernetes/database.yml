@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: database
+spec:
+    ports:
+        - port: 5432
+
+---
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: database
+subsets:
+  - addresses:
+        - ip: 50.112.22.176
+    ports:
+        - port: 32117

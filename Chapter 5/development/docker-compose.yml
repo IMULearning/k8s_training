@@ -1,0 +1,26 @@
+database:
+    image: postgres:9.4
+    ports:
+        - "5432:5432"
+
+router:
+    image: nginx
+    ports:
+        - "80:80"
+    volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+    links:
+        - api
+        - fe
+
+api:
+    image: benstraub/api:latest
+    command: --reload
+    volumes:
+        - ./api:/app
+    links:
+        - database
+
+fe:
+    image: benstraub/fe:latest
+    command: -c /etc/nginx/nginx-dev.conf

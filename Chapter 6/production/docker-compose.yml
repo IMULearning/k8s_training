@@ -1,0 +1,52 @@
+database:
+    image: postgres:9.4
+    ports:
+        - "5432:5432"
+
+redis:
+    image: redis:3.0-alpine
+    ports:
+        - "6379:6379"
+
+router:
+    image: nginx
+    ports:
+        - "80:80"
+    volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+    links:
+        - api
+        - fe
+        - mailer
+
+api:
+    image: benstraub/api:latest
+    command: --reload
+    volumes:
+        - ./api:/app
+    links:
+        - database
+        - mailer
+
+fe:
+    image: benstraub/fe:latest
+    command: -c /etc/nginx/nginx-dev.conf
+
+mailer:
+    image: benstraub/mailer:latest
+    volumes:
+        - ./mailer:/app
+    ports:
+        - "3000:3000"
+    links:
+        - database
+        - redis
+
+mailerworker:
+    image: benstraub/mailer:latest
+    command: bin/rake resque:work
+    volumes:
+        - ./mailer:/app
+    links:
+        - database
+        - redis

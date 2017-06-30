@@ -1,0 +1,8 @@
+gunicorn
+sqlalchemy
+sqlalchemy_utils
+psycopg2
+alembic
+flask
+flask-cors
+requests

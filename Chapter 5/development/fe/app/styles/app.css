@@ -1,0 +1,31 @@
+header, section {
+    width: 700px;
+    margin: auto;
+}
+
+ul {
+    /*margin: 1em 0;*/
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+    margin: 3px 0;
+}
+
+.todos .controls {
+    opacity: 0;
+}
+
+.todos li:hover .controls {
+    opacity: 1;
+}
+
+.controls a {
+    text-decoration: none;
+}
+
+.complete {
+    text-decoration: line-through;
+    opacity: 80%;
+}
